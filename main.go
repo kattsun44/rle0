@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 func main() {
@@ -25,9 +26,7 @@ func encode(input string) string {
 
 		if prev != 0 {
 			output.WriteString(string(prev))
-			if count != 1 {
-				output.WriteString(strconv.Itoa(count))
-			}
+			output.WriteString(strconv.Itoa(count))
 			output.WriteString(",")
 		}
 
@@ -36,21 +35,36 @@ func encode(input string) string {
 	}
 
 	output.WriteString(string(prev))
-	if count != 1 {
-		output.WriteString(strconv.Itoa(count))
-	}
+	output.WriteString(strconv.Itoa(count))
 
 	return output.String()
 }
 
 func decode(input string) string {
-	var prev rune
+	var prev, char rune
+	var runes []rune
 	var output strings.Builder
+	var count int
+
 	for _, c := range input {
-		if i, err := strconv.Atoi(string(c)); err == nil {
-			output.WriteString(strings.Repeat(string(prev), i))
+		if prev == ',' || prev == 0 {
+			runes = []rune{}
+			char = c
+		} else {
+			if unicode.IsDigit(c) {
+				runes = append(runes, c)
+			}
 		}
+
+		count, _ = strconv.Atoi(string(runes))
+		if c == ',' {
+			output.WriteString(strings.Repeat(string(char), count))
+		}
+
 		prev = c
 	}
+
+	output.WriteString(strings.Repeat(string(char), count))
+
 	return output.String()
 }

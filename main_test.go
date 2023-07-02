@@ -27,7 +27,7 @@ func Test_encode(t *testing.T) {
 		want string
 	}{
 		{name: "only A", args: args{input: "AAAAA"}, want: "A5"},
-		{name: "hw", args: args{input: "Hello, World!"}, want: "H,e,l2,o,,, ,W,o,r,l,d,!"},
+		{name: "hw", args: args{input: "Hello, World!"}, want: "H1,e1,l2,o1,,1, 1,W1,o1,r1,l1,d1,!1"},
 		{name: "only comma", args: args{input: ",,,,,,,,,,,,"}, want: ",12"},
 	}
 	for _, tt := range tests {
@@ -51,6 +51,7 @@ func Test_decode(t *testing.T) {
 		{name: "blank", args: args{input: ""}, want: ""},
 		{name: "aa", args: args{input: "a2"}, want: "aa"},
 		{name: "a2b2", args: args{input: "a2,b2"}, want: "aabb"},
+		{name: "a10b15", args: args{input: "a10,b15"}, want: "aaaaaaaaaabbbbbbbbbbbbbbb"},
 		// {name: "foobar", args: args{input: "f,o2,b,a,r"}, want: "foobar"},
 	}
 	for _, tt := range tests {
