@@ -8,13 +8,20 @@ import (
 	"unicode"
 )
 
+const defaultDelimiter = ","
+
 func main() {
+	var delimiter = flag.String("delimiter", defaultDelimiter, "delimiter (default: comma)")
 	flag.Parse()
-	fmt.Println(encode(flag.Arg(0)))
-	fmt.Println(decode(encode(flag.Arg(0))))
+
+	rle := encode(flag.Arg(0), *delimiter)
+	rld := decode(rle, *delimiter)
+
+	fmt.Println(rle)
+	fmt.Println(rld)
 }
 
-func encode(input string) string {
+func encode(input string, d string) string {
 	count := 1
 	var prev rune
 	var output strings.Builder
@@ -27,7 +34,7 @@ func encode(input string) string {
 		if prev != 0 {
 			output.WriteString(string(prev))
 			output.WriteString(strconv.Itoa(count))
-			output.WriteString(",")
+			output.WriteString(d)
 		}
 
 		prev = c
@@ -40,14 +47,14 @@ func encode(input string) string {
 	return output.String()
 }
 
-func decode(input string) string {
+func decode(input string, d string) string {
 	var prev, char rune
 	var runes []rune
 	var output strings.Builder
 	var count int
 
 	for _, c := range input {
-		if prev == ',' || prev == 0 {
+		if string(prev) == d || prev == 0 {
 			runes = []rune{}
 			char = c
 		} else {
@@ -57,10 +64,10 @@ func decode(input string) string {
 		}
 
 		count, _ = strconv.Atoi(string(runes))
-		if c == ',' {
+		if string(c) == d {
 			output.WriteString(strings.Repeat(string(char), count))
-			if prev == ',' {
-				output.WriteString(",")
+			if string(prev) == d {
+				output.WriteString(d)
 			}
 		}
 
