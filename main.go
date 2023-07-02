@@ -59,6 +59,9 @@ func decode(input string) string {
 		count, _ = strconv.Atoi(string(runes))
 		if c == ',' {
 			output.WriteString(strings.Repeat(string(char), count))
+			if prev == ',' {
+				output.WriteString(",")
+			}
 		}
 
 		prev = c
