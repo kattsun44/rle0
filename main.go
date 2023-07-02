@@ -27,7 +27,10 @@ func compress(input string) string {
 
 		if prev != 0 {
 			output.WriteString(string(prev))
-			output.WriteString(strconv.Itoa(count))
+			if count != 1 {
+				output.WriteString(strconv.Itoa(count))
+			}
+			output.WriteString(",")
 		}
 
 		prev = c
@@ -35,7 +38,9 @@ func compress(input string) string {
 	}
 
 	output.WriteString(string(prev))
-	output.WriteString(strconv.Itoa(count))
+	if count != 1 {
+		output.WriteString(strconv.Itoa(count))
+	}
 
 	return output.String()
 }

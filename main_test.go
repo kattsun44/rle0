@@ -24,7 +24,9 @@ func Test_compress(t *testing.T) {
 		args args
 		want string
 	}{
-		// TODO: Add test cases.
+		{name: "only A", args: args{input: "AAAAA"}, want: "A5"},
+		{name: "hw", args: args{input: "Hello, World!"}, want: "H,e,l2,o,,, ,W,o,r,l,d,!"},
+		{name: "only comma", args: args{input: ",,,,,,,,,,,,"}, want: ",12"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
