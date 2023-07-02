@@ -11,11 +11,13 @@ import (
 const defaultDelimiter = ","
 
 func main() {
-	var delimiter = flag.String("delimiter", defaultDelimiter, "delimiter (default: comma)")
+	var delimiter string
+	flag.StringVar(&delimiter, "delimiter", defaultDelimiter, "Set delimiter (default: comma)")
+	flag.StringVar(&delimiter, "d", defaultDelimiter, "Set delimiter by short (default: comma)")
 	flag.Parse()
 
-	rle := encode(flag.Arg(0), *delimiter)
-	rld := decode(rle, *delimiter)
+	rle := encode(flag.Arg(0), delimiter)
+	rld := decode(rle, delimiter)
 
 	fmt.Println(rle)
 	fmt.Println(rld)
