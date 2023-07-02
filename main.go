@@ -44,5 +44,13 @@ func encode(input string) string {
 }
 
 func decode(input string) string {
-	return input
+	var prev rune
+	var output strings.Builder
+	for _, c := range input {
+		if i, err := strconv.Atoi(string(c)); err == nil {
+			output.WriteString(strings.Repeat(string(prev), i))
+		}
+		prev = c
+	}
+	return output.String()
 }

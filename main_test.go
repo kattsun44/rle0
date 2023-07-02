@@ -49,7 +49,8 @@ func Test_decode(t *testing.T) {
 		want string
 	}{
 		{name: "blank", args: args{input: ""}, want: ""},
-		// {name: "aa", args: args{input: "a2"}, want: "aa"},
+		{name: "aa", args: args{input: "a2"}, want: "aa"},
+		{name: "a2b2", args: args{input: "a2,b2"}, want: "aabb"},
 		// {name: "foobar", args: args{input: "f,o2,b,a,r"}, want: "foobar"},
 	}
 	for _, tt := range tests {
