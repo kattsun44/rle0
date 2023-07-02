@@ -8,11 +8,10 @@ import (
 )
 
 func main() {
-	const defaultStr = "AAAAAAABBBBBBBCCCCDEEE"
-	var str = flag.String("str", defaultStr, "use")
 	flag.Parse()
-	fmt.Println(*str)
-	fmt.Println(compress(*str))
+	fmt.Println(flag.Args())
+	fmt.Println(flag.Arg(0))
+	fmt.Println(compress(flag.Arg(0)))
 }
 
 func compress(input string) string {
