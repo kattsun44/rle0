@@ -9,12 +9,11 @@ import (
 
 func main() {
 	flag.Parse()
-	fmt.Println(flag.Args())
-	fmt.Println(flag.Arg(0))
-	fmt.Println(compress(flag.Arg(0)))
+	fmt.Println(encode(flag.Arg(0)))
+	fmt.Println(decode(encode(flag.Arg(0))))
 }
 
-func compress(input string) string {
+func encode(input string) string {
 	count := 1
 	var prev rune
 	var output strings.Builder
@@ -42,4 +41,8 @@ func compress(input string) string {
 	}
 
 	return output.String()
+}
+
+func decode(input string) string {
+	return input
 }

@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func Test_main(t *testing.T) {
 	tests := []struct {
@@ -15,7 +17,7 @@ func Test_main(t *testing.T) {
 	}
 }
 
-func Test_compress(t *testing.T) {
+func Test_encode(t *testing.T) {
 	type args struct {
 		input string
 	}
@@ -30,8 +32,30 @@ func Test_compress(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := compress(tt.args.input); got != tt.want {
-				t.Errorf("compress() = %v, want %v", got, tt.want)
+			if got := encode(tt.args.input); got != tt.want {
+				t.Errorf("encode() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_decode(t *testing.T) {
+	type args struct {
+		input string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{name: "blank", args: args{input: ""}, want: ""},
+		// {name: "aa", args: args{input: "a2"}, want: "aa"},
+		// {name: "foobar", args: args{input: "f,o2,b,a,r"}, want: "foobar"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := decode(tt.args.input); got != tt.want {
+				t.Errorf("decode() = %v, want %v", got, tt.want)
 			}
 		})
 	}
