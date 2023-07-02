@@ -18,3 +18,12 @@ Hello, World!
 A5,B4,C3,D2,E1
 AAAAABBBBCCCDDE
 ```
+```shell
+# rle0 --delimiter=: a,,,,,,,,,,,
+a1:,11
+a,,,,,,,,,,,
+
+# rle0 -d : a,,,,,,,,,,,
+a1:,11
+a,,,,,,,,,,,
+```
