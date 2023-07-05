@@ -16,12 +16,13 @@ func main() {
 	flag.StringVar(&delimiter, "d", defaultDelimiter, "Set delimiter by short (default: comma)")
 	flag.Parse()
 
-	// TODO: args 未入力時の挙動修正
-	rle := encode(flag.Arg(0), delimiter)
-	rld := decode(rle, delimiter)
+	for _, arg := range flag.Args() {
+		rle := encode(arg, delimiter)
+		rld := decode(rle, delimiter)
 
-	fmt.Println(rle)
-	fmt.Println(rld)
+		fmt.Println(rle)
+		fmt.Println(rld)
+	}
 }
 
 func encode(input string, d string) string {
