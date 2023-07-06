@@ -4,26 +4,17 @@ Run-length Encoding/Decoding CLI
 
 ## Example
 ```shell
-# rle0 aaaaaaaaaa
-a10
-aaaaaaaaaa
-```
-```shell
-# rle0 "Hello, World\!"
-H1,e1,l2,o1,,1, 1,W1,o1,r1,l1,d1,!1
-Hello, World!
-```
-```shell
-# rle0 AAAAABBBBCCCDDE
-A5,B4,C3,D2,E1
-AAAAABBBBCCCDDE
-```
-```shell
-# rle0 --delimiter=: a,,,,,,,,,,,
-a1:,11
-a,,,,,,,,,,,
+# rle0 test.txt
+aaaaaaaaaaaaaaaaaaaaaaaashsheg
+a24,s1,h1,s1,h1,e1,g1
+30 bytes -> 21 bytes (70%)
 
-# rle0 -d : a,,,,,,,,,,,
-a1:,11
-a,,,,,,,,,,,
+# ls | grep test.txt
+test.txt
+test.txt.rl
+```
+```shell
+# rle0
+rl0 : stat : no such file or directory
+exit status 1
 ```

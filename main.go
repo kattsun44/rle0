@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 	"unicode"
@@ -16,13 +17,49 @@ func main() {
 	flag.StringVar(&delimiter, "d", defaultDelimiter, "Set delimiter by short (default: comma)")
 	flag.Parse()
 
-	for _, arg := range flag.Args() {
-		rle := encode(arg, delimiter)
-		rld := decode(rle, delimiter)
-
-		fmt.Println(rle)
-		fmt.Println(rld)
+	arg := flag.Arg(0)
+	_, err := os.Stat(arg)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "rl0 : %v\n", err)
+		os.Exit(1)
 	}
+
+	f, err := os.Open(arg)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "rl0 : %v\n", err)
+		os.Exit(1)
+	}
+
+	data := make([]byte, 1024)
+	count, err := f.Read(data)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "rl0 : %v\n", err)
+		os.Exit(1)
+	}
+
+	rle := encode(string(data[:count]), delimiter)
+	rld := decode(rle, delimiter)
+
+	fmt.Println(rld)
+	fmt.Println(rle)
+
+	// .rl 拡張子がつく新規ファイルを作り、エンコード結果を書き込む (拡張子の形式は暫定)
+	nf, err := os.Create(arg + ".rl")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "rl0 : %v\n", err)
+		os.Exit(1)
+	}
+
+	nCount, err := nf.Write([]byte(rle))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "rl0 : %v\n", err)
+		os.Exit(1)
+	}
+
+	fmt.Printf("%d bytes -> %d bytes (%.4g%%)\n", count, nCount, float64(nCount)/float64(count)*100)
+
+	defer f.Close()
+	defer nf.Close()
 }
 
 func encode(input string, d string) string {
